@@ -2,7 +2,6 @@ p {
   text-align: center; 
   font-size: 30px;
   color: Black;
-  background: linear-gradient(to bottom, #ffffff 0%, #ffffcc 100%);
   }
  
 
@@ -10,6 +9,7 @@ h2 {
   text-align:center; 
   font-size: 60px;
   color: AntiqueWhite;
-  background: linear-gradient(to bottom, #ffffff 0%, #ffffcc 100%);
   }
- 
+body {
+    background: linear-gradient(to bottom, #ffffff 0%, #ffffcc 100%);
+    }
