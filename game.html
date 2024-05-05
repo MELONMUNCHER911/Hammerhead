@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ping Pong Game</title>
+<style>
+    canvas {
+        display: block;
+        margin: 0 auto;
+        border: 1px solid black;
+    }
+</style>
+</head>
+<body>
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+<script>
+    // Get the canvas element and its context
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set initial position and velocity of the ball
+    let x = canvas.width / 2;
+    let y = canvas.height - 30;
+    let dx = 2;
+    let dy = -2;
+
+    // Set paddle properties
+    const paddleHeight = 10;
+    const paddleWidth = 75;
+    let paddleX = (canvas.width - paddleWidth) / 2;
+
+    // Set initial state of keys
+    let rightPressed = false;
+    let leftPressed = false;
+
+    // Event listeners for key presses
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+
+    // Functions to handle key events
+    function keyDownHandler(e) {
+        if (e.key === "Right" || e.key === "ArrowRight") {
+            rightPressed = true;
+        } else if (e.key === "Left" || e.key === "ArrowLeft") {
+            leftPressed = true;
+        }
+    }
+
+    function keyUpHandler(e) {
+        if (e.key === "Right" || e.key === "ArrowRight") {
+            rightPressed = false;
+        } else if (e.key === "Left" || e.key === "ArrowLeft") {
+            leftPressed = false;
+        }
+    }
+
+    // Function to draw the ball
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    // Function to draw the paddle
+    function drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    // Function to detect collision with walls and paddle
+    function collisionDetection() {
+        if (x + dx > canvas.width - 10 || x + dx < 10) {
+            dx = -dx;
+        }
+        if (y + dy < 10) {
+            dy = -dy;
+        } else if (y + dy > canvas.height - 10) {
+            if (x > paddleX && x < paddleX + paddleWidth) {
+                dy = -dy;
+            } else {
+                // Game over condition
+                document.location.reload();
+            }
+        }
+    }
+
+    // Function to update the game state
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBall();
+        drawPaddle();
+        collisionDetection();
+
+        // Move the paddle
+        if (rightPressed && paddleX < canvas.width - paddleWidth) {
+            paddleX += 7;
+        } else if (leftPressed && paddleX > 0) {
+            paddleX -= 7;
+        }
+
+        // Move the ball
+        x += dx;
+        y += dy;
+
+        requestAnimationFrame(update);
+    }
+
+    // Start the game loop
+    update();
+</script>
+</body>
+</html>
