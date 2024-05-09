@@ -17,3 +17,7 @@ body {
 body {
     background: CornflowerBlue;
     }
+
+.high-quality {
+  image-rendering: high-quality;
+}
